@@ -1,4 +1,4 @@
-# Bluetooth LE Contact Tracing Tracker. 
+# Bluetooth LE Contact Tracing Tracker Server Storage
 
 ## Install
 
