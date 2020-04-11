@@ -16,7 +16,7 @@ ruby app.rb
 
 ## Table Structure
 
-```js
+```ruby
 Contact(
     uploader,   # uploading ID
     contact,    # contact ID
@@ -42,11 +42,11 @@ With Body:
 
 ```json
 { 
-  "uploader": [uploader ID], 
-  "contact": [contact ID], 
-  "start_time": [datetime], 
-  "end_time": [datetime], 
-  "rssi": [integer]
+  "uploader":  "",
+  "contact": "",
+  "start_time": "",
+  "end_time":  "",
+  "rssi": "",
 }
 ````
 
@@ -56,7 +56,7 @@ Request
 
 ```bash
 curl -i -X POST -H "Content-Type: application/json" \
-       -d'{"uploader":"upSerial", "contact":"conSerial", "start_time":"2020-03-19T07:22Z", "end_time":"2020-03-19T07:25Z", "rssi":-27}' \
+       -d'{"uploader":"upSerial", "contact":"conSerial", "start_time":"2020-03-19T07:22Z", "end_time":"2020-03-19T07:25Z", "rssi":-27}'\
        http://localhost:4567/api/v1/contacts
 ```
 
@@ -68,5 +68,14 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 Content-Length: 221
 
-{"id":5,"uploader":"upSerial","contact":"conSerial","start_time":"2020-03-19T07:22:00.000Z","end_time":"2020-03-19T07:25:00.000Z","rssi":-27,"created_at":"2020-04-11T18:28:23.636Z","updated_at":"2020-04-11T18:28:23.636Z"}
+{ 
+  "id":5, 
+  "uploader":"upSerial",
+  "contact":"conSerial",
+  "start_time":"2020-03-19T07:22:00.000Z",
+  "end_time":"2020-03-19T07:25:00.000Z",
+  "rssi":-27,
+  "created_at":"2020-04-11T18:28:23.636Z",
+  "updated_at":"2020-04-11T18:28:23.636Z"
+ }
 ````
