@@ -8,6 +8,13 @@ Ultra-simple Ruby server to receive and save bluetooth contact information on Po
 bundle install 
 ```
 
+Create and populate database:
+
+```bash 
+rake db:create 
+rake db:migrate
+```
+
 ## Run
 
 ```bash
