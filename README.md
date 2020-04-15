@@ -64,7 +64,7 @@ Request
 
 ```bash
 curl -i -X POST -H "Content-Type: application/json" \
-       -d'{"uploader":"upSerial", "contact":"conSerial", "start_time":"2020-03-19T07:22Z", "end_time":"2020-03-19T07:25Z", "rssi":-27}'\
+       -d'{"uploader":"testWithUpdate", "contact":"conSerial", "date":"2020-03-19T07:22Z", "rssi":-27}'\
        http://localhost:4567/api/v1/contacts
 ```
 

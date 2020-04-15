@@ -20,7 +20,7 @@ namespace '/api/v1' do
       begin
         JSON.parse(request.body.read)
       rescue
-        halt 400, { message:'Invalid JSON' }.to_json
+        halt 400, { message: "Invalid JSON: #{request.body.read}" }.to_json
       end
     end
   end
@@ -40,7 +40,35 @@ namespace '/api/v1' do
   end
 
   post '/contacts' do
-    contact = Contact.new(json_params)
+    params = json_params
+
+    # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
+    contact = Contact.where(['uploader = ? and contact = ? and start_time > ? and end_time < ?',
+                             params['uploader'], params['contact'],
+                             DateTime.parse(params['date']), DateTime.parse(params['date'])
+    ]).first
+
+    if contact 
+      return contact.to_json
+    end
+
+    # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
+    contact = Contact.where(['uploader = ? and contact = ? and end_time > ?',
+                             params['uploader'], params['contact'],
+                             DateTime.parse(params['date']) - 2.minute]).first
+
+    if contact
+      contact.end_time = params['date'] if contact.end_time < params['date'];
+      contact.rssi = params['rssi'] if params['rssi'];
+    else
+      contact = Contact.new()
+      contact.uploader = params['uploader']
+      contact.contact = params['contact']
+      contact.start_time = params['date']
+      contact.end_time = params['date']
+      contact.rssi = params['rssi']
+    end
+
     if contact.save
       contact.to_json
     else
