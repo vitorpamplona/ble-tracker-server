@@ -1,6 +1,6 @@
-# Bluetooth LE Contact Tracing Tracker Server Storage
+# Basic Bluetooth LE Contact Tracing Tracker Server
 
-Ultra-simple Ruby server to receive and save bluetooth contact information on PostgreSQL. 
+Ultra-simple Ruby server to receive and save bluetooth contact information on PostgreSQL on an internal network (no user token)
 
 ## Install
 
