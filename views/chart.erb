@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BLE Server Data Viz</title>
+    <script src="chart.bundle.min.js"></script>
+    <script src="chartkick.min.js"></script>
+   <script src="http://www.gstatic.com/charts/loader.js"></script>
+  </head>
+  <body>
+    <center>
+        <h1> Timeline </h1>
+        <%= timeline @timeline, columns: ['ss', 'ss', 'ss', 'ss'] , height: "1200px", width: "80%" %>
+    </center>
+
+    <script>
+        Chartkick.configure({language: "en", mapsApiKey: "AIzaSyAnsJiBidtS98aT4H_XcphFEyFeJUeDa3w"});
+    </script>
+  </body>
+</html>

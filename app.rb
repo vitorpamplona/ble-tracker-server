@@ -3,12 +3,21 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/namespace'
 require 'sinatra/reloader' if development?
+require 'chartkick'
 
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 
 get '/' do
-  'Hello world!'
+  @timeline = []
+
+  db = Contact.select(:uploader, :contact, :start_time, :end_time)
+  db.each { |item|
+    logger.info item
+    @timeline.append([item.uploader, item.start_time, item.end_time])
+  }
+#item.contact, item.contact, 
+  erb :chart
 end
 
 namespace '/api/v1' do
