@@ -1,9 +1,9 @@
 class Contact < ActiveRecord::Base
-# t.string :uploader
-# t.string :contact
-# t.datetime :start_time
-# t.datetime :end_time
-# t.integer :rssi
+  # t.string :uploader
+  # t.string :contact
+  # t.datetime :start_time
+  # t.datetime :end_time
+  # t.integer :rssi
   scope :uploader, ->(uploader) { where(uploader: uploader) }
   scope :contact, ->(contact) { where(contact: contact) }
 end
