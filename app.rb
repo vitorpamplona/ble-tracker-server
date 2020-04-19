@@ -14,9 +14,8 @@ get '/' do
   db = Contact.select(:uploader, :contact, :start_time, :end_time)
   db.each { |item|
     logger.info item
-    @timeline.append([item.uploader, item.start_time, item.end_time])
+    @timeline.append(uploader: item.uploader, contact: item.contact, start: item.start_time, end: item.end_time)
   }
-#item.contact, item.contact, 
   erb :chart
 end
 

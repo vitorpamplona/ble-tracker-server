@@ -9,11 +9,34 @@
   <body>
     <center>
         <h1> Timeline </h1>
-        <%= timeline @timeline, columns: ['ss', 'ss', 'ss', 'ss'] , height: "1200px", width: "80%" %>
+        <div id="timeline" style="height: 1200px; width:80%"></div>
     </center>
 
-    <script>
-        Chartkick.configure({language: "en", mapsApiKey: "AIzaSyAnsJiBidtS98aT4H_XcphFEyFeJUeDa3w"});
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["timeline"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var container = document.getElementById('timeline');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+
+        dataTable.addColumn({ type: 'string', id: 'Uploader' });
+        dataTable.addColumn({ type: 'string', id: 'Contact' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+
+        dataTable.addRows([
+        <% @timeline.each do |data| %>
+            [ "<%= data[:uploader] %>", "<%= data[:contact] %>", new Date("<%= data[:start].iso8601 %>"), new Date("<%= data[:end].iso8601 %>") ],
+        <% end %>
+        ]);
+        
+        var options = {
+          timeline: { groupByRowLabel: true }
+        };
+
+        chart.draw(dataTable, options);
+      }
     </script>
   </body>
 </html>
