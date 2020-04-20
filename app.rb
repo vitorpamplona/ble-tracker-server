@@ -62,12 +62,14 @@ namespace '/api/v1' do
     end
 
     # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
-    contact = Contact.where(['uploader = ? and contact = ? and end_time > ?',
+    contact = Contact.where(['uploader = ? and contact = ? and ? > start_time and ? < end_time',
                              params['uploader'], params['contact'],
-                             DateTime.parse(params['date']) - 2.minute]).first
+                             DateTime.parse(params['date']) + 3.minute,
+                             DateTime.parse(params['date']) - 3.minute]).first
 
     if contact
-      contact.end_time = params['date'] if contact.end_time < params['date'];
+      contact.start_time = params['date'] if params['date'] < contact.start_time
+      contact.end_time = params['date']   if params['date'] > contact.end_time
       contact.rssi = params['rssi'] if params['rssi'];
     else
       contact = Contact.new()
