@@ -1,4 +1,4 @@
-# Basic Bluetooth LE Contact Tracing Tracker Server
+# Basic Bluetooth LE Contact Tracing Dashboard Server
 
 Ultra-simple Ruby server to receive and save bluetooth contact information on PostgreSQL on an internal network (no user token)
 
