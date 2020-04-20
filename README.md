@@ -2,6 +2,8 @@
 
 Ultra-simple Ruby server to receive and save bluetooth contact information on PostgreSQL on an internal network (no user token)
 
+<img src="./docs/preview.png" data-canonical-src="./docs/preview.png" />
+
 ## Install
 
 ```bash
