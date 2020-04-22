@@ -13,16 +13,16 @@
 ActiveRecord::Schema.define(version: 2020_04_10_231034) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'contacts', force: :cascade do |t|
-    t.string 'uploader'
-    t.string 'contact'
-    t.datetime 'start_time'
-    t.datetime 'end_time'
-    t.integer 'rssi'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "contacts", force: :cascade do |t|
+    t.string "uploader"
+    t.string "contact"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer "rssi"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
