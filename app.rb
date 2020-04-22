@@ -3,7 +3,6 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/namespace'
 require 'sinatra/reloader' if development?
-require 'chartkick'
 
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
