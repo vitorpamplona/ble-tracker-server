@@ -13,8 +13,8 @@ GEM
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2)
     backports (3.17.1)
-    chartkick (3.3.1)
     concurrent-ruby (1.1.6)
+    diff-lcs (1.3)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     minitest (5.14.0)
@@ -25,7 +25,22 @@ GEM
     rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
     rake (13.0.1)
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.1)
+      rspec-support (~> 3.9.1)
+    rspec-expectations (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.2)
     ruby2_keywords (0.0.2)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
@@ -52,9 +67,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  chartkick
   pg
+  rack-test
   rake
+  rspec
   sinatra
   sinatra-activerecord
   sinatra-contrib

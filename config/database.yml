@@ -1,3 +1,11 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: bch_bluetooth_test_db
+  pool: 2
+  username: postgres 
+  password: postgres
+
 development:
   adapter: postgresql
   encoding: unicode

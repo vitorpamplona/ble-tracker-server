@@ -24,6 +24,14 @@ rake db:migrate
 ruby app.rb
 ```
 
+## Run Tests
+
+```bash
+rake db:create RACK_ENV=test
+rake db:migrate RACK_ENV=test
+rspec -I . ./specs/app_spec.rb
+```
+
 ## Table Structure
 
 ```ruby
