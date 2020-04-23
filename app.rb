@@ -47,6 +47,10 @@ namespace '/api/v1' do
     contacts.to_json
   end
 
+  get '/health' do
+    { version: "0.0.1" }.to_json
+  end
+
   post '/contacts' do
     params = json_params
 
