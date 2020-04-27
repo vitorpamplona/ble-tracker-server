@@ -90,6 +90,35 @@ describe 'BLE Server' do
     expect(json_response.length).to eq(1)
   end
 
+  it 'should not duplicate events even in lists' do
+    post '/api/v1/contacts', [{
+      uploader: 'uploaderID',
+      contact: 'contactID',
+      date: '2020-03-19T07:22:00.200Z',
+      rssi: -27
+    },{
+      uploader: 'uploaderID',
+      contact: 'contactID',
+      date: '2020-03-19T07:22:00.200Z',
+      rssi: -28
+    }].to_json, as: :json
+
+    expect(last_response).to be_ok
+    json_response = JSON.parse(last_response.body)
+
+    expect(json_response[0]['uploader']).to eq('uploaderID')
+    expect(json_response[0]['contact']).to eq('contactID')
+    expect(json_response[0]['start_time']).to eq('2020-03-19T07:22:00.200Z')
+    expect(json_response[0]['end_time']).to eq('2020-03-19T07:22:00.200Z')
+    expect(json_response[0]['rssi']).to eq(-27)
+
+    # has only one record
+    get '/api/v1/contacts'
+    expect(last_response).to be_ok
+    json_response = JSON.parse(last_response.body)
+    expect(json_response.length).to eq(1)
+  end
+
   it 'should create new records if diferent contacts' do
     post '/api/v1/contacts', {
       uploader: 'uploaderID',
