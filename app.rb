@@ -51,39 +51,59 @@ namespace '/api/v1' do
   end
 
   post '/contacts' do
-    params = json_params
+    input = json_params
 
-    # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
-    contact = Contact.where(['uploader = ? and contact = ? and start_time > ? and end_time < ?',
-                             params['uploader'], params['contact'],
-                             DateTime.parse(params['date']), DateTime.parse(params['date'])
-    ]).first
-
-    if contact 
-      return contact.to_json
-    end
-
-    # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
-    contact = Contact.where(['uploader = ? and contact = ? and ? > start_time and ? < end_time',
-                             params['uploader'], params['contact'],
-                             DateTime.parse(params['date']) + 3.minute,
-                             DateTime.parse(params['date']) - 3.minute]).first
-
-    if contact
-      contact.start_time = params['date'] if params['date'] < contact.start_time
-      contact.end_time = params['date']   if params['date'] > contact.end_time
-      contact.rssi = params['rssi'] if params['rssi']
+    list = [];
+    if input.kind_of?(Array)
+      list = input
     else
-      contact = Contact.new()
-      contact.uploader = params['uploader']
-      contact.contact = params['contact']
-      contact.start_time = params['date']
-      contact.end_time = params['date']
-      contact.rssi = params['rssi']
+      list = [input];
     end
 
-    if contact.save
-      contact.to_json
+    result = [];
+    list.each { |params|
+      # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
+      contact = Contact.where(['uploader = ? and contact = ? and start_time > ? and end_time < ?',
+                              params['uploader'], params['contact'],
+                              DateTime.parse(params['date']), DateTime.parse(params['date'])
+      ]).first
+
+      if contact 
+        return contact.to_json
+      end
+
+      # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
+      contact = Contact.where(['uploader = ? and contact = ? and ? > start_time and ? < end_time',
+                              params['uploader'], params['contact'],
+                              DateTime.parse(params['date']) + 3.minute,
+                              DateTime.parse(params['date']) - 3.minute]).first
+
+      if contact
+        contact.start_time = params['date'] if params['date'] < contact.start_time
+        contact.end_time = params['date']   if params['date'] > contact.end_time
+        contact.rssi = params['rssi'] if params['rssi']
+      else
+        contact = Contact.new()
+        contact.uploader = params['uploader']
+        contact.contact = params['contact']
+        contact.start_time = params['date']
+        contact.end_time = params['date']
+        contact.rssi = params['rssi']
+      end
+
+      if contact.save
+        result.push(contact)
+      end
+    }
+
+    p "Processed #{list.length} inputs into #{result.length} outputs" 
+
+    if result.length > 0
+      if result.length == 1
+        result[0].to_json
+      else
+        result.to_json
+      end
     else
       status 422
     end
