@@ -47,7 +47,7 @@ namespace '/api/v1' do
   end
 
   get '/health' do
-    { version: "0.0.1" }.to_json
+    { version: "0.0.2" }.to_json
   end
 
   post '/contacts' do
