@@ -72,7 +72,7 @@ namespace '/api/v1' do
     if contact
       contact.start_time = params['date'] if params['date'] < contact.start_time
       contact.end_time = params['date']   if params['date'] > contact.end_time
-      contact.rssi = params['rssi'] if params['rssi'];
+      contact.rssi = params['rssi'] if params['rssi']
     else
       contact = Contact.new()
       contact.uploader = params['uploader']
