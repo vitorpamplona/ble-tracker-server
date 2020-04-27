@@ -16,6 +16,12 @@ gem install bundler
 bundle install 
 ```
 
+Setup your database environment
+
+```bash
+cp ./config/database_example.yml ./config/database.yml 
+```
+
 Create and populate database:
 
 ```bash 
