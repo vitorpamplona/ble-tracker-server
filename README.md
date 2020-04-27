@@ -4,6 +4,11 @@ Ultra-simple Ruby server to receive and save bluetooth contact information on Po
 
 <img src="./docs/preview.png" data-canonical-src="./docs/preview.png" />
 
+## Requirements
+
+Ruby 2.7.0
+PostgreSQL or an ActiveRecord-compatible database
+
 ## Install
 
 ```bash
