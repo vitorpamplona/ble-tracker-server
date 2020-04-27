@@ -6,7 +6,7 @@ Ultra-simple Ruby server to receive and save bluetooth contact information on Po
 
 ## Requirements
 
-- Ruby 2.7.0
+- Ruby 2.7
 - PostgreSQL or an ActiveRecord-compatible database
 
 ## Install
