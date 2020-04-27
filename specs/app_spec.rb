@@ -91,17 +91,10 @@ describe 'BLE Server' do
   end
 
   it 'should not duplicate events even in lists' do
-    post '/api/v1/contacts', [{
-      uploader: 'uploaderID',
-      contact: 'contactID',
-      date: '2020-03-19T07:22:00.200Z',
-      rssi: -27
-    },{
-      uploader: 'uploaderID',
-      contact: 'contactID',
-      date: '2020-03-19T07:22:00.200Z',
-      rssi: -28
-    }].to_json, as: :json
+    post '/api/v1/contacts', [
+      { uploader: 'uploaderID', contact: 'contactID', date: '2020-03-19T07:22:00.200Z', rssi: -27 },
+      { uploader: 'uploaderID', contact: 'contactID', date: '2020-03-19T07:22:00.200Z', rssi: -28 }
+    ].to_json, as: :json
 
     expect(last_response).to be_ok
     json_response = JSON.parse(last_response.body)
