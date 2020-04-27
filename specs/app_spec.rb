@@ -200,7 +200,6 @@ describe 'BLE Server' do
     expect(last_response).to be_ok
     json_response = JSON.parse(last_response.body)
 
-    p json_response
     expect(json_response['start_time']).to eq('2020-03-19T07:22:00.000Z')
     expect(json_response['end_time']).to eq('2020-03-19T07:22:00.000Z')
     expect(json_response['rssi']).to eq(-27)
@@ -214,7 +213,6 @@ describe 'BLE Server' do
 
     expect(last_response).to be_ok
     json_response = JSON.parse(last_response.body)
-    p json_response
     expect(json_response['start_time']).to eq('2020-03-19T07:22:00.000Z')
     expect(json_response['end_time']).to eq('2020-03-19T07:24:30.000Z')
     expect(json_response['rssi']).to eq(-28)
