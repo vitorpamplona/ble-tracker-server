@@ -121,7 +121,7 @@ namespace '/api/v1' do
 
           prevCon = contacts[index-1]
 
-          if prevCon.end_time > contact.start_time # goes into the next timeline
+          if prevCon.end_time >= contact.start_time # goes into the next timeline
             if contact.end_time > prevCon.end_time 
               prevCon.end_time = contact.end_time
               prevCon.save!
