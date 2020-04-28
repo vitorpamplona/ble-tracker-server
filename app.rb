@@ -118,7 +118,6 @@ namespace '/api/v1' do
 
         contacts.each_with_index do |contact, index|
           next if index == 0
-          next if index+1 == contacts.length
 
           prevCon = contacts[index-1]
 
