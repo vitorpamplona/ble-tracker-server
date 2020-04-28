@@ -109,4 +109,34 @@ namespace '/api/v1' do
       status 422
     end
   end
+
+  get '/check' do
+    users = Contact.select(:contact).group(:contact)
+    users.each { |user|
+      users.each { |contact|
+        contacts = Contact.where(uploader: user.contact, contact: contact.contact).order(:start_time)
+
+        contacts.each_with_index do |contact, index|
+          next if index == 0
+          next if index+1 == contacts.length
+
+          prevCon = contacts[index-1]
+
+          if prevCon.end_time > contact.start_time # goes into the next timeline
+            if contact.end_time > prevCon.end_time 
+              prevCon.end_time = contact.end_time
+              prevCon.save!
+              #contact.destroy! #make it in. Then delete. 
+              puts "Up #{prevCon.start_time}, #{contact.start_time}, #{prevCon.end_time}, #{contact.end_time}"
+            else
+              contact.destroy!
+              puts "In #{prevCon.start_time}, #{contact.start_time}, #{contact.end_time}, #{prevCon.end_time}"
+            end
+          end
+        end
+      }
+    }
+    users.to_json
+  end
+
 end
