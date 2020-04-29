@@ -10,7 +10,7 @@ Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 get '/' do
   @timeline = []
 
-  db = Contact.select(:uploader, :contact, :start_time, :end_time)
+  db = Contact.select(:uploader, :contact, :start_time, :end_time).order(:start_time, :contact)
   db.each { |item|
     @timeline.append(uploader: item.uploader, contact: item.contact, start: item.start_time, end: item.end_time)
   }
