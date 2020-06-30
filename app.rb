@@ -10,9 +10,12 @@ Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 get '/' do
   @timeline = []
 
-  db = Contact.select(:uploader, :contact, :start_time, :end_time).order(:start_time, :contact)
+  db = Contact.select(:uploader, :contact, :start_time, :end_time)
+              .order(:start_time, :contact)
+
   db.each { |item|
-    @timeline.append(uploader: item.uploader, contact: item.contact, start: item.start_time, end: item.end_time)
+    @timeline.append(uploader: item.uploader, contact: item.contact,
+                     start: item.start_time, end: item.end_time)
   }
   erb :chart
 end
@@ -47,7 +50,7 @@ namespace '/api/v1' do
   end
 
   get '/health' do
-    { version: "0.0.3" }.to_json
+    { version: '0.0.3' }.to_json
   end
 
   post '/contacts' do
@@ -64,27 +67,27 @@ namespace '/api/v1' do
     list.each { |params|
       # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
       contact = Contact.where(['uploader = ? and contact = ? and start_time >= ? and end_time <= ?',
-                              params['uploader'], params['contact'],
-                              DateTime.parse(params['date']), DateTime.parse(params['date'])
+                               params['uploader'], params['contact'],
+                               DateTime.parse(params['date']), DateTime.parse(params['date'])
       ]).first
 
-      if contact 
+      if contact
         result.push(contact)
         next
       end
 
       # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
       contact = Contact.where(['uploader = ? and contact = ? and ? > start_time and ? < end_time',
-      params['uploader'], params['contact'],
-      DateTime.parse(params['date']) + 3.minute,
-      DateTime.parse(params['date']) - 3.minute]).first
+                               params['uploader'], params['contact'],
+                               DateTime.parse(params['date']) + 3.minute,
+                               DateTime.parse(params['date']) - 3.minute]).first
 
       if contact
         contact.start_time = params['date'] if params['date'] < contact.start_time
         contact.end_time = params['date']   if params['date'] > contact.end_time
         contact.rssi = params['rssi'] if params['rssi']
       else
-        contact = Contact.new()
+        contact = Contact.new
         contact.uploader = params['uploader']
         contact.contact = params['contact']
         contact.start_time = params['date']
@@ -164,5 +167,4 @@ namespace '/api/v1' do
     }
     users.to_json
   end
-
 end
