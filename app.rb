@@ -20,6 +20,10 @@ get '/' do
   erb :chart
 end
 
+get '/terms' do
+  'Terms and Conditions'
+end
+
 namespace '/api/v1' do
   helpers do
     def base_url
