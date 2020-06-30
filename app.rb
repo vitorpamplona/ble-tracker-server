@@ -46,7 +46,7 @@ namespace '/api/v1' do
   get '/contacts' do
     contacts = Contact.all
 
-    [:uploader, :contact].each do |filter|
+    %i[uploader contact].each do |filter|
       contacts = contacts.send(filter, params[filter]) if params[filter]
     end
 
@@ -59,20 +59,15 @@ namespace '/api/v1' do
 
   post '/contacts' do
     input = json_params
+    list = input.is_a?(Array) ? input : [input]
 
-    list = [];
-    if input.kind_of?(Array)
-      list = input
-    else
-      list = [input];
-    end
-
-    result = [];
+    result = []
     list.each { |params|
-      # Interface: { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
+      # { uploader:_uploader, contact: _contact, rssi:_rssi, date:_date };
       contact = Contact.where(['uploader = ? and contact = ? and start_time >= ? and end_time <= ?',
                                params['uploader'], params['contact'],
-                               DateTime.parse(params['date']), DateTime.parse(params['date'])
+                               DateTime.parse(params['date']),
+                               DateTime.parse(params['date'])
       ]).first
 
       if contact
@@ -108,7 +103,7 @@ namespace '/api/v1' do
 
     p "Processed #{list.length} inputs into #{result.length} outputs" 
 
-    if result.length > 0
+    if !result.empty?
       if result.length == 1
         result[0].to_json
       else
@@ -126,19 +121,19 @@ namespace '/api/v1' do
         contacts = Contact.where(uploader: user.contact, contact: contact.contact).order(:start_time)
 
         contacts.each_with_index do |contact, index|
-          next if index == 0
+          next if index.zero?
 
-          prevCon = contacts[index-1]
+          prev_con = contacts[index - 1]
 
-          if prevCon.end_time >= contact.start_time # goes into the next timeline
-            if contact.end_time > prevCon.end_time 
-              prevCon.end_time = contact.end_time
-              prevCon.save!
-              #contact.destroy! #make it in. Then delete. 
-              puts "Up #{prevCon.start_time}, #{contact.start_time}, #{prevCon.end_time}, #{contact.end_time}"
+          if prev_con.end_time >= contact.start_time # goes into the next timeline
+            if contact.end_time > prev_con.end_time 
+              prev_con.end_time = contact.end_time
+              prev_con.save!
+              # contact.destroy! #make it in. Then delete. 
+              puts "Up #{prev_con.start_time}, #{contact.start_time}, #{prev_con.end_time}, #{contact.end_time}"
             else
               contact.destroy!
-              puts "In #{prevCon.start_time}, #{contact.start_time}, #{contact.end_time}, #{prevCon.end_time}"
+              puts "In #{prev_con.start_time}, #{contact.start_time}, #{contact.end_time}, #{prev_con.end_time}"
             end
           end
         end
@@ -154,18 +149,18 @@ namespace '/api/v1' do
         contacts = Contact.where(uploader: user.contact, contact: contact.contact).order(:start_time)
 
         contacts.each_with_index do |contact, index|
-          next if index == 0
+          next if index.zero?
 
-          prevCon = contacts[index-1]
+          prev_con = contacts[index - 1]
 
-          if (contact.start_time - prevCon.end_time).to_f / 60 < 3
-            if contact.end_time >= prevCon.end_time 
-              prevCon.end_time = contact.end_time
-              prevCon.save!
-              #contact.destroy!
-              puts "Join #{prevCon.start_time}, #{prevCon.end_time}, #{contact.start_time}, #{contact.end_time} with #{(contact.start_time - prevCon.end_time).to_f / 60}"
+          if (contact.start_time - prev_con.end_time).to_f / 60 < 3
+            if contact.end_time >= prev_con.end_time
+              prev_con.end_time = contact.end_time
+              prev_con.save!
+              # contact.destroy!
+              puts "Join #{prev_con.start_time}, #{prev_con.end_time}, #{contact.start_time}, #{contact.end_time} with #{(contact.start_time - prev_con.end_time).to_f / 60}"
             else
-              puts ">?>?? #{prevCon.end_time} #{contact.end_time}"
+              puts ">?>?? #{prev_con.end_time} #{contact.end_time}"
             end
           end
         end
