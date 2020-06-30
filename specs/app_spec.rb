@@ -29,6 +29,28 @@ describe 'BLE Server' do
     expect(json_response['rssi']).to eq(-27)
   end
 
+  it 'should insert an event with ip_address and employee_id' do
+    post '/api/v1/contacts', {
+      uploader: 'uploaderID',
+      contact: 'contactID',
+      date: '2020-03-19T07:22Z',
+      ip_address: '192.168.1.2',
+      employee_id: '66378872',
+      rssi: -27
+    }.to_json, as: :json
+
+    expect(last_response).to be_ok
+    json_response = JSON.parse(last_response.body)
+
+    expect(json_response['uploader']).to eq('uploaderID')
+    expect(json_response['contact']).to eq('contactID')
+    expect(json_response['start_time']).to eq('2020-03-19T07:22:00.000Z')
+    expect(json_response['end_time']).to eq('2020-03-19T07:22:00.000Z')
+    expect(json_response['rssi']).to eq(-27)
+    expect(json_response['ip_address']).to eq('192.168.1.2')
+    expect(json_response['employee_id']).to eq('66378872')
+  end
+
   it 'should insert a list of events' do
     post '/api/v1/contacts', 
     [{
