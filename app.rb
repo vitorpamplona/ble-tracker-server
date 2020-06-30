@@ -93,6 +93,8 @@ namespace '/api/v1' do
         contact.start_time = params['date']
         contact.end_time = params['date']
         contact.rssi = params['rssi']
+        contact.ip_address = params['ip_address']
+        contact.employee_id = params['employee_id']
       end
 
       if contact.save
